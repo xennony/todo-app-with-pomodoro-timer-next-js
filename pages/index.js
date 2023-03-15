@@ -137,16 +137,16 @@ export default function Home() {
         <div className="flex justify-center mt-[50px]">
           <div class="tabs gap-1">
             <div
-              class={`tab tab-pill ${
-                activeTab === "Focus" ? "tab-active" : ""
+              class={`text-[16px] tab tab-pill ${
+                activeTab === "Focus" ? "tab-active font-medium" : ""
               }`}
               onClick={() => setActiveTab("Focus")}
             >
               Focus
             </div>
             <div
-              class={`tab tab-pill ${
-                activeTab === "Break" ? "tab-active" : ""
+              class={`text-[16px] tab tab-pill ${
+                activeTab === "Break" ? "tab-active font-medium" : ""
               }`}
               onClick={() => setActiveTab("Break")}
             >
@@ -199,13 +199,18 @@ export default function Home() {
       </main>
       <div className="fixed bottom-0 left-0 border-[1px] backdrop-blur-sm bg-[#fcfcfc] w-full py-4 px-8 flex justify-between">
         <p className="opacity-30">by xennony</p>
-        <Image
-          src="assets/github-mark.svg"
-          width={25}
-          height={25}
-          className="opacity-30"
-          alt="Home"
-        />
+        <a
+          target="_blank"
+          href="https://github.com/xennony/todo-app-with-pomodoro-timer-next-js"
+        >
+          <Image
+            src="assets/github-mark.svg"
+            width={25}
+            height={25}
+            className="opacity-30"
+            alt="Home"
+          />
+        </a>
       </div>
     </>
   );

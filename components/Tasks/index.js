@@ -57,27 +57,30 @@ const Tasks = ({ data, setData, toggleCheck, deleteTask }) => {
 
   return (
     <div className="pb-[80px]">
-      <div class="tabs gap-1 mb-[20px]">
-        {/* добавляем обработчик клика и классы для активной вкладки */}
-        <div
-          class={`tab tab-pill ${selectedTab === "All" ? "tab-active" : ""}`}
-          onClick={() => handleTabChange("All")}
-        >
-          All
-        </div>
-        <div
-          class={`tab tab-pill ${selectedTab === "Done" ? "tab-active" : ""}`}
-          onClick={() => handleTabChange("Done")}
-        >
-          Done
-        </div>
-      </div>
-
       {data.length ? (
         <h3 className="text-[24px] font-bold mb-[20px]">Tasks</h3>
       ) : (
         ""
       )}
+      <div class="tabs gap-1 mb-[20px]">
+        {/* добавляем обработчик клика и классы для активной вкладки */}
+        <div
+          class={`text-[16px] tab tab-pill ${
+            selectedTab === "All" ? "tab-active font-medium" : ""
+          }`}
+          onClick={() => handleTabChange("All")}
+        >
+          All
+        </div>
+        <div
+          class={`text-[16px] tab tab-pill ${
+            selectedTab === "Done" ? "tab-active font-medium" : ""
+          }`}
+          onClick={() => handleTabChange("Done")}
+        >
+          Done
+        </div>
+      </div>
 
       <div>
         {data.length ? (
