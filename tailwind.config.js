@@ -12,4 +12,5 @@ module.exports = {
   rippleui: {
     removeThemes: ["dark", "whateverTheme"],
   },
+  // fix
 };

@@ -1,8 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Image from "next/image";
 
-import { useTransition } from "transition-hook";
-
 const Pomidoro = ({ activeTab }) => {
   const [startTimer, setStartTimer] = useState(false);
   // initial time in seconds
