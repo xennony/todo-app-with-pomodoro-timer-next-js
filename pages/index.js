@@ -159,7 +159,7 @@ export default function Home() {
           <Image src="/assets/home.png" width={200} height={200} />
         </div>
 
-        <Pomidoro activeTab={activeTab} />
+        <Pomidoro activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="flex sticky top-0 bg-[#fcfcfc] pt-[20px] z-10">
           <input
             className="input input-block mb-[20px] "

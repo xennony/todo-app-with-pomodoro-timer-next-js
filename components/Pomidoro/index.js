@@ -1,10 +1,9 @@
 import { React, useState, useEffect } from "react";
 import Image from "next/image";
 
-const Pomidoro = ({ activeTab }) => {
+const Pomidoro = ({ activeTab, setActiveTab }) => {
   const [startTimer, setStartTimer] = useState(false);
   // initial time in seconds
-  // const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [focusTime, setFocusTime] = useState(25 * 60);
   const [breakTime, setBreakTime] = useState(5 * 60);
 
@@ -17,27 +16,6 @@ const Pomidoro = ({ activeTab }) => {
       .padStart(2, "0")}`;
   };
 
-  // run effect when startTimer changes
-  // useEffect(() => {
-  //   let interval;
-  //   if (startTimer) {
-  //     // start countdown
-  //     interval = setInterval(() => {
-  //       setTimeLeft((prevTime) => {
-  //         if (prevTime > 0) {
-  //           return prevTime - 1; // decrease time by one second
-  //         } else {
-  //           return prevTime; // stop at zero
-  //         }
-  //       });
-  //     }, 1000); // run every second
-  //   } else {
-  //     // stop countdown
-  //     clearInterval(interval);
-  //   }
-  //   // cleanup interval on unmount
-  //   return () => clearInterval(interval);
-  // }, [startTimer]); // only run effect when startTimer changes
   useEffect(() => {
     let timerId;
     if (startTimer) {
@@ -48,6 +26,7 @@ const Pomidoro = ({ activeTab }) => {
               setActiveTab("Break");
               setFocusTime(25 * 60);
               setBreakTime(5 * 60);
+              setStartTimer(false);
             }
             return prev - 1;
           });
@@ -57,6 +36,7 @@ const Pomidoro = ({ activeTab }) => {
               setActiveTab("Focus");
               setFocusTime(25 * 60);
               setBreakTime(5 * 60);
+              setStartTimer(false);
             }
             return prev - 1;
           });
