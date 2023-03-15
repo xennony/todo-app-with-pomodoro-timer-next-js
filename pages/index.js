@@ -133,7 +133,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="w-[800px] px-4 mx-auto">
+      <main className="max-w-[800px] px-4 mx-auto">
         <div className="flex justify-center mt-[50px]">
           <div class="tabs gap-1">
             <div
