@@ -1,11 +1,26 @@
 import { React, useState, useEffect } from "react";
 import Image from "next/image";
 
+const FOCUS_TIME_INITIAL = 25 * 60;
+const BREAK_TIME_INITIAL = 5 * 60;
+
+const Timer = ({ time }) => {
+  const formatTime = (time) => {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  return <p className="text-[64px] font-bold mb-[20px]">{formatTime(time)}</p>;
+};
+
 const Pomidoro = ({ activeTab, setActiveTab }) => {
   const [startTimer, setStartTimer] = useState(false);
   // initial time in seconds
-  const [focusTime, setFocusTime] = useState(25 * 60);
-  const [breakTime, setBreakTime] = useState(5 * 60);
+  const [focusTime, setFocusTime] = useState(FOCUS_TIME_INITIAL);
+  const [breakTime, setBreakTime] = useState(BREAK_TIME_INITIAL);
 
   // format timeLeft to mm:ss
   const formatTime = (time) => {
@@ -24,8 +39,8 @@ const Pomidoro = ({ activeTab, setActiveTab }) => {
           setFocusTime((prev) => {
             if (prev === 0) {
               setActiveTab("Break");
-              setFocusTime(25 * 60);
-              setBreakTime(5 * 60);
+              setFocusTime(FOCUS_TIME_INITIAL);
+              setBreakTime(BREAK_TIME_INITIAL);
               setStartTimer(false);
             }
             return prev - 1;
@@ -34,8 +49,8 @@ const Pomidoro = ({ activeTab, setActiveTab }) => {
           setBreakTime((prev) => {
             if (prev === 0) {
               setActiveTab("Focus");
-              setFocusTime(25 * 60);
-              setBreakTime(5 * 60);
+              setFocusTime(FOCUS_TIME_INITIAL);
+              setBreakTime(BREAK_TIME_INITIAL);
               setStartTimer(false);
             }
             return prev - 1;
@@ -47,8 +62,8 @@ const Pomidoro = ({ activeTab, setActiveTab }) => {
   }, [startTimer, activeTab]);
 
   const restartTimer = () => {
-    setFocusTime(25 * 60);
-    setBreakTime(5 * 60);
+    setFocusTime(FOCUS_TIME_INITIAL);
+    setBreakTime(BREAK_TIME_INITIAL);
     setStartTimer(false);
   };
 
@@ -73,8 +88,8 @@ const Pomidoro = ({ activeTab, setActiveTab }) => {
               <path
                 d="M6.04995 2.74998C6.04995 2.44623 5.80371 2.19998 5.49995 2.19998C5.19619 2.19998 4.94995 2.44623 4.94995 2.74998V12.25C4.94995 12.5537 5.19619 12.8 5.49995 12.8C5.80371 12.8 6.04995 12.5537 6.04995 12.25V2.74998ZM10.05 2.74998C10.05 2.44623 9.80371 2.19998 9.49995 2.19998C9.19619 2.19998 8.94995 2.44623 8.94995 2.74998V12.25C8.94995 12.5537 9.19619 12.8 9.49995 12.8C9.80371 12.8 10.05 12.5537 10.05 12.25V2.74998Z"
                 fill="currentColor"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
           </button>
@@ -93,6 +108,7 @@ const Pomidoro = ({ activeTab, setActiveTab }) => {
           height={25}
           className="ml-[20px] active:opacity-50 ease-out duration-100"
           onClick={restartTimer}
+          alt="home"
         />
       </div>
     </div>

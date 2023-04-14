@@ -1,11 +1,11 @@
 import { React, useState } from "react";
-
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 // Componets
 import Task from "./Task";
 
 const Tasks = ({ data, setData, toggleCheck, deleteTask }) => {
   const [selectedTab, setSelectedTab] = useState("All");
-
+  const [parent] = useAutoAnimate();
   // добавляем функцию для обновления задачи в массиве data по id и новому значению
   const updateTask = (id, newValue) => {
     // находим индекс задачи в массиве по id
@@ -14,6 +14,8 @@ const Tasks = ({ data, setData, toggleCheck, deleteTask }) => {
     const newData = [...data];
     // обновляем название задачи в копии массива по индексу и новому значению
     newData[index].name = newValue;
+    console.log("data:", data);
+    console.log("newData:", newData);
     // устанавливаем новое состояние для data из копии массива
     setData(newData);
   };
@@ -24,12 +26,13 @@ const Tasks = ({ data, setData, toggleCheck, deleteTask }) => {
   };
 
   // выносим объявление переменной filteredTasks за пределы JSX-выражения
+  console.log(data);
   const filteredTasks = data.filter(
-    (task) => selectedTab === "All" || task.is_checked === true
+    (task) => selectedTab === "All" || task && task.is_checked === true
   );
 
   // выносим объявление переменной hasDoneTasks за пределы JSX-выражения
-  const hasDoneTasks = filteredTasks.some((task) => task.is_checked === true);
+  const hasDoneTasks = filteredTasks.some((task) => task && task.is_checked === true);
 
   // выносим условный оператор if за пределы JSX-выражения и присваиваем результат переменной tasksToRender
   let tasksToRender;
@@ -40,17 +43,21 @@ const Tasks = ({ data, setData, toggleCheck, deleteTask }) => {
   } else {
     tasksToRender = filteredTasks
       .map((task) => {
-        return (
-          <Task
-            key={task.id}
-            id={task.id}
-            name={task.name}
-            is_checked={task.is_checked}
+        //if (task) {
+
+          return (
+            <Task
+            key={task?.id}
+            id={task?.id}
+            name={task?.name}
+            is_checked={task?.is_checked}
             toggleCheck={toggleCheck}
             deleteTask={deleteTask}
             updateTask={updateTask}
-          />
-        );
+            />
+            );
+          //}
+          //return null;
       })
       .reverse();
   }
@@ -62,10 +69,10 @@ const Tasks = ({ data, setData, toggleCheck, deleteTask }) => {
       ) : (
         ""
       )}
-      <div class="tabs gap-1 mb-[20px]">
+      <div className="tabs gap-1 mb-[20px]">
         {/* добавляем обработчик клика и классы для активной вкладки */}
         <div
-          class={`text-[16px] tab tab-pill ${
+          className={`text-[16px] tab tab-pill ${
             selectedTab === "All" ? "tab-active font-medium" : ""
           }`}
           onClick={() => handleTabChange("All")}
@@ -73,7 +80,7 @@ const Tasks = ({ data, setData, toggleCheck, deleteTask }) => {
           All
         </div>
         <div
-          class={`text-[16px] tab tab-pill ${
+          className={`text-[16px] tab tab-pill ${
             selectedTab === "Done" ? "tab-active font-medium" : ""
           }`}
           onClick={() => handleTabChange("Done")}
@@ -82,7 +89,7 @@ const Tasks = ({ data, setData, toggleCheck, deleteTask }) => {
         </div>
       </div>
 
-      <div>
+      <div ref={parent}>
         {data.length ? (
           // рендерим переменную tasksToRender
           tasksToRender

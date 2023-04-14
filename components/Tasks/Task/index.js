@@ -36,6 +36,7 @@ const Task = ({
       updateTask(id, newValue);
       // выключаем режим редактирования
       setIsEditing(false);
+
     }
   };
 
@@ -64,10 +65,10 @@ const Task = ({
               className="checkbox checked:bg-black checked:border-black"
             />
           </label>
-          <div class="popover">
+          <div className="popover">
             <svg
               popover-trigger
-              tabindex="0"
+              tabIndex="0"
               className="popover-trigger ml-[20px] outline-none"
               width="15"
               height="15"
@@ -78,15 +79,15 @@ const Task = ({
               <path
                 d="M3.625 7.5C3.625 8.12132 3.12132 8.625 2.5 8.625C1.87868 8.625 1.375 8.12132 1.375 7.5C1.375 6.87868 1.87868 6.375 2.5 6.375C3.12132 6.375 3.625 6.87868 3.625 7.5ZM8.625 7.5C8.625 8.12132 8.12132 8.625 7.5 8.625C6.87868 8.625 6.375 8.12132 6.375 7.5C6.375 6.87868 6.87868 6.375 7.5 6.375C8.12132 6.375 8.625 6.87868 8.625 7.5ZM12.5 8.625C13.1213 8.625 13.625 8.12132 13.625 7.5C13.625 6.87868 13.1213 6.375 12.5 6.375C11.8787 6.375 11.375 6.87868 11.375 7.5C11.375 8.12132 11.8787 8.625 12.5 8.625Z"
                 fill="currentColor"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
             <div
-              class="popover-content popover-top-left items-center w-[140px] mr-[-5px]"
-              tabindex="0"
+              className="popover-content popover-top-left items-center w-[140px] mr-[-5px]"
+              tabIndex="0"
             >
-              <div class="popover-arrow mr-[-10px]"></div>
+              <div className="popover-arrow mr-[-10px]"></div>
               <button
                 onClick={handleEditClick}
                 className="btn px-2 w-[100px] bg-blue-500 text-white rounded-xl mb-[5px]"
