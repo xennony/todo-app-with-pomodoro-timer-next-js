@@ -5,8 +5,6 @@ import { React, useState, useEffect } from "react";
 import Pomidoro from "/components/Pomidoro";
 import Tasks from "/components/Tasks";
 
-const supabase = require("./config.js");
-
 export default function Home() {
   const initialData = [];
 
