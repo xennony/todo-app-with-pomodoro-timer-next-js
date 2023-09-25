@@ -28,6 +28,7 @@ export default function Home() {
     const updatedData = [...dataMain, newTask];
     setData(updatedData);
     localStorage.setItem("data", JSON.stringify(updatedData));
+    setTaskName('');
   };
 
   const toggleCheck = (id) => {
