@@ -18,11 +18,9 @@ const Timer = ({ time }) => {
 
 const Pomidoro = ({ activeTab, setActiveTab }) => {
   const [startTimer, setStartTimer] = useState(false);
-  // initial time in seconds
   const [focusTime, setFocusTime] = useState(FOCUS_TIME_INITIAL);
   const [breakTime, setBreakTime] = useState(BREAK_TIME_INITIAL);
 
-  // format timeLeft to mm:ss
   const formatTime = (time) => {
     let minutes = Math.floor(time / 60);
     let seconds = time % 60;

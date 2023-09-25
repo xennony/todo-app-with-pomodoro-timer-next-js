@@ -1,119 +1,45 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "@/styles/Home.module.css";
 import { React, useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 
-// Components
 import Pomidoro from "/components/Pomidoro";
 import Tasks from "/components/Tasks";
 
-console.log("process.env.SUPABASE_URL: " + process.env.SUPABASE_URL);
-// Initialize the Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_API_KEY
-);
+const supabase = require("./config.js");
 
 export default function Home() {
+  const initialData = [];
+
   const [dataMain, setData] = useState([]);
-
-  /* const [data, setData] = useState([
-    { id: 1, name: "Решить математические примеры", is_checked: false },
-    { id: 2, name: "Поучаствовать в онлайн-киноклубе", is_checked: false },
-    { id: 3, name: "Запастись свежей выпечкой", is_checked: false },
-    { id: 4, name: "Написать сочинение по литературе", is_checked: false },
-    { id: 5, name: "Просмотреть новый сериал на Netflix", is_checked: false },
-    { id: 7, name: "Сходить в булочную за багетом", is_checked: false },
-  ]); */
-
-
-  /*useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(data));
-  }, [data]);
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("data"));
     if (items) {
       setData(items);
+    } else {
+      setData(initialData);
     }
-  }, []);*/
-
-  useEffect(() => {
-    // Fetch data from the Supabase table
-    const fetchData = async () => {
-      const { data: tasks, error } = await supabase
-        .from("data")
-        .select("*")
-        .order("id", { ascending: true });
-
-      if (error) {
-        console.log("Error fetching tasks:", error.message);
-      } else {
-        setData(tasks);
-      }
-    };
-
-    fetchData();
   }, []);
 
-  const [taskName, setTaskName] = useState(""); // Текст задачи
+  const [taskName, setTaskName] = useState("");
 
   const [activeTab, setActiveTab] = useState("Focus");
 
-  const addTask = async (taskName) => {
-    // Insert a new task into the Supabase table
-    const { data: newTask, error } = await supabase
-      .from("data")
-      .insert({ name: taskName, is_checked: false })
-      .single();
-  
-    if (error) {
-      console.log("Error adding task:", error.message);
-    } else {
-      // Check if newTask has the correct properties
-      console.log("New task:", newTask);
-  
-      // Check if the name property is not empty or undefinedЦ
-      if (newTask && newTask.name) {
-        setData((prev) => [...prev, newTask]); // Update dataMain with new task
-      } else {
-        console.log("New task name is empty or undefined");
-      }
-    }
-  
-    setTaskName("");
+  const addTask = (taskName) => {
+    const newTask = { id: Date.now(), name: taskName, is_checked: false };
+    const updatedData = [...dataMain, newTask];
+    setData(updatedData);
+    localStorage.setItem("data", JSON.stringify(updatedData));
   };
 
-
-  /*const addTask = (taskName) => {
-    // Находим максимальный id в массиве data
-    const maxId = Math.max(...data.map((task) => task.id));
-    // Создаем новую задачу в виде объекта с полями id, name и is_checked
-    const newTask = {
-      id: maxId + 1,
-      name: taskName,
-      is_checked: false,
-    };
-    // Добавляем новую задачу в массив data
-    console.log("Before adding new task:", data);
-    setData((prev) => [...prev, newTask]);
-    console.log("After adding new task:", data);
-    // Сохраняем обновленное значение data в localStorage
-    localStorage.setItem("data", JSON.stringify([...data, newTask]));
-
-    setTaskName("");
-  };*/
-
-  // Функция для изменения значения is_checked по id задачи
-
   const toggleCheck = async (id) => {
-    // Update the is_checked field of the task with the given id
     const { error } = await supabase
       .from("data")
-      .update({ is_checked: !dataMain.find((task) => task.id === id).is_checked })
+      .update({
+        is_checked: !dataMain.find((task) => task.id === id).is_checked,
+      })
       .eq("id", id);
-  
+
     if (error) {
       console.log("Error updating task:", error.message);
     } else {
@@ -124,40 +50,16 @@ export default function Home() {
       );
     }
   };
-  
-  
-  /*const toggleCheck = (id) => {
-    // Создаем новый массив data с обновленными значениями is_checked
-    const newData = data.map((task) => {
-      if (task.id === id) {
-        // Меняем значение is_checked на противоположное для задачи с нужным id
-        return { ...task, is_checked: !task.is_checked };
-      } else {
-        // Оставляем значение is_checked без изменений для остальных задач
-        return task;
-      }
-    });
-    // Обновляем состояние data новым массивом
-    setData(newData);
-  };*/
 
-  // Функция для удаления задачи по id
   const deleteTask = async (id) => {
-    // Delete the task with the given id from the Supabase table
     const { error } = await supabase.from("data").delete().eq("id", id);
-  
+
     if (error) {
       console.log("Error deleting task:", error.message);
     } else {
-      setData((prev) => prev.filter((task) => task.id !== id));
+      localStorage.removeItem("data", JSON.stringify(updatedData));
     }
   };
-  /*const deleteTask = (id) => {
-    // Создаем новый массив data без задачи с нужным id
-    const newData = data.filter((task) => task.id !== id);
-    // Обновляем состояние data новым массивом
-    setData(newData);
-  };*/
 
   return (
     <>
@@ -195,6 +97,7 @@ export default function Home() {
         </div>
 
         <Pomidoro activeTab={activeTab} setActiveTab={setActiveTab} />
+
         <div className="flex sticky top-0 bg-[#fcfcfc] pt-[20px] z-10">
           <input
             className="input input-block mb-[20px] "
@@ -230,24 +133,9 @@ export default function Home() {
           setData={setData}
           toggleCheck={toggleCheck}
           deleteTask={deleteTask}
-
+          totalCount={dataMain.length}
         />
       </main>
-      <div className="fixed bottom-0 left-0 border-[1px] backdrop-blur-sm bg-[#fcfcfc] w-full py-4 px-8 flex justify-between">
-        <p className="opacity-30">by xennony</p>
-        <a
-          target="_blank"
-          href="https://github.com/xennony/todo-app-with-pomodoro-timer-next-js"
-        >
-          <Image
-            src="assets/github-mark.svg"
-            width={25}
-            height={25}
-            className="opacity-30"
-            alt="Home"
-          />
-        </a>
-      </div>
     </>
   );
 }

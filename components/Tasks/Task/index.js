@@ -8,42 +8,32 @@ const Task = ({
   deleteTask,
   updateTask,
 }) => {
-  // добавляем состояние для режима редактирования и функцию для его изменения
-  const [isEditing, setIsEditing] = useState(false);
 
-  // добавляем состояние для нового значения инпута и функцию для его изменения
+  const [isEditing, setIsEditing] = useState(false);
   const [newValue, setNewValue] = useState(name);
 
-  // добавляем функцию для переключения режима редактирования
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
 
-  // добавляем функцию для переключения режима редактирования
   const handleEditClick = () => {
     setIsEditing(!isEditing);
   };
 
-  // добавляем функцию для обработки изменения инпута
   const handleInputChange = (e) => {
     setNewValue(e.target.value);
   };
 
-  // добавляем функцию для обработки нажатия на Enter
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      // вызываем функцию для обновления задачи в массиве data по id и новому значению
       updateTask(id, newValue);
-      // выключаем режим редактирования
       setIsEditing(false);
-
     }
   };
 
   return (
     <div>
       <div className="flex justify-between hover:bg-[#e8e8e8] ease-in-out duration-150 p-4 rounded-xl">
-        {/* добавляем условный рендеринг для параграфа с названием задачи */}
         {isEditing ? (
           <input
             value={newValue}
