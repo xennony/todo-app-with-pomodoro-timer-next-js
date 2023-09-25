@@ -31,6 +31,7 @@ const Tasks = ({ data, setData, toggleCheck, deleteTask, totalCount }) => {
     console.log("data:", data);
     console.log("newData:", newData);
     setData(newData);
+    localStorage.setItem("data", JSON.stringify(newData));
   };
 
   const handleTabChange = (tab) => {

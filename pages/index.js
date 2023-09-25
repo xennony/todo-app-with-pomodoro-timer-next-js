@@ -30,34 +30,20 @@ export default function Home() {
     localStorage.setItem("data", JSON.stringify(updatedData));
   };
 
-  const toggleCheck = async (id) => {
-    const { error } = await supabase
-      .from("data")
-      .update({
-        is_checked: !dataMain.find((task) => task.id === id).is_checked,
-      })
-      .eq("id", id);
-
-    if (error) {
-      console.log("Error updating task:", error.message);
-    } else {
-      setData((prev) =>
-        prev.map((task) =>
-          task.id === id ? { ...task, is_checked: !task.is_checked } : task
-        )
-      );
-    }
+  const toggleCheck = (id) => {
+    const updatedData = dataMain.map((task) => 
+      task.id === id ? { ...task, is_checked: !task.is_checked } : task
+    );
+    setData(updatedData);
+    localStorage.setItem("data", JSON.stringify(updatedData));
   };
-
-  const deleteTask = async (id) => {
-    const { error } = await supabase.from("data").delete().eq("id", id);
-
-    if (error) {
-      console.log("Error deleting task:", error.message);
-    } else {
-      localStorage.removeItem("data", JSON.stringify(updatedData));
-    }
+    
+  const deleteTask = (id) => {
+    const updatedData = dataMain.filter((task) => task.id !== id);
+    setData(updatedData);
+    localStorage.setItem("data", JSON.stringify(updatedData));
   };
+  
 
   return (
     <>
